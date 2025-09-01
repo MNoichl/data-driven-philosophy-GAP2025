@@ -1,0 +1,22 @@
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Virtual environment
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+
+# API keys and sensitive configuration
+*.key
+*api_key*
+*API_KEY*
+config/secrets.yml
+secrets.json
