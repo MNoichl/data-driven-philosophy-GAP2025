@@ -13,6 +13,12 @@ __pycache__/
 *$py.class
 
 
+# macOS system files
+.DS_Store
+__MACOSX/
+
+
+
 
 # API keys and sensitive configuration
 *.key
@@ -20,3 +26,6 @@ __pycache__/
 *API_KEY*
 config/secrets.yml
 secrets.json
+
+# Stanford Encyclopedia directory
+stanford-encyclopedia/
