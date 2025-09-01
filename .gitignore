@@ -27,5 +27,6 @@ __MACOSX/
 config/secrets.yml
 secrets.json
 
+
 # Stanford Encyclopedia directory
 stanford-encyclopedia/
