@@ -213,23 +213,22 @@ def plot_streamgraph(
 
     # Value smoothing
     Ys = smooth_series(Y, smooth_window)
-
-    # Stacking
+    
+    # Stacking/interpolation
     order_mode = "by_value" if sorted_streams else "none"
-    bottoms, tops = streamgraph_envelopes(Ys, margin_frac=margin_frac, order_mode=order_mode)
-
-    # Boundary curve smoothing
     if curve_samples and curve_samples > 1:
-        dense_bottoms = []
-        dense_tops = []
+        # Interpolate the non-negative series values first, then restack on the dense grid.
+        dense_values = []
+        Xp = None
         for i in range(Ys.shape[0]):
-            xd, bd = catmull_rom_interpolate(X, bottoms[i], samples_per_seg=curve_samples)
-            _,  td = catmull_rom_interpolate(X, tops[i],    samples_per_seg=curve_samples)
-            dense_bottoms.append(bd)
-            dense_tops.append(td)
-        Xp = xd  # same for all layers
-        bottoms, tops = np.vstack(dense_bottoms), np.vstack(dense_tops)
+            xd, yd = catmull_rom_interpolate(X, Ys[i], samples_per_seg=curve_samples)
+            if Xp is None:
+                Xp = xd
+            dense_values.append(np.clip(yd, 0.0, None))
+        Yd = np.vstack(dense_values)
+        bottoms, tops = streamgraph_envelopes(Yd, margin_frac=margin_frac, order_mode=order_mode)
     else:
+        bottoms, tops = streamgraph_envelopes(Ys, margin_frac=margin_frac, order_mode=order_mode)
         Xp = X
 
     # Plot
