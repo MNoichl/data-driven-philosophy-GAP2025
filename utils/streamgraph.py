@@ -174,6 +174,10 @@ def plot_streamgraph(
     linewidth: float = 0.0,
     alpha: float = 1.0,
     label_placement: bool = True,
+    label_position: str = "peak",
+    label_color: Optional[Tuple[str] | List[str] | str] = None,
+    label_fontsize: int = 10,
+    label_weight: str = "bold",
     curve_samples: int = 1,
     baseline: str = "center",
     pad_frac: float = 0.05,
@@ -196,11 +200,25 @@ def plot_streamgraph(
         Matplotlib colormap name. None uses the default property cycle.
     linewidth, alpha : appearance controls.
     label_placement : bool
-        Place label at fattest point of each layer.
+        Whether to place labels for each layer.
+    label_position : {'peak','start','end'}
+        Where to place labels when label_placement is True. 'peak' places at
+        the fattest point (default, backward-compatible). 'start' places near
+        the first appearance of the stream with right alignment; 'end' places
+        near the last appearance with left alignment. X-limits are extended
+        slightly for 'start'/'end' to avoid clipping.
+    label_color : str or list[str] or None
+        Text color(s) for labels. If a list is provided, it should match the number
+        of layers. None defaults to white for readability on colored streams.
+    label_fontsize : int
+        Font size for label text.
+    label_weight : str
+        Font weight for label text, e.g., 'normal', 'bold'.
     curve_samples : int
         When >= 2, densify boundaries using Catmull–Rom curves for smooth transitions.
     baseline : currently only 'center' is supported.
-    pad_frac : vertical padding fraction for y-limits.
+    pad_frac : float
+        Vertical padding fraction for y-limits.
     ax : optional Matplotlib Axes.
     """
     if baseline != "center":
@@ -217,16 +235,21 @@ def plot_streamgraph(
     # Stacking/interpolation
     order_mode = "by_value" if sorted_streams else "none"
     if curve_samples and curve_samples > 1:
-        # Interpolate the non-negative series values first, then restack on the dense grid.
-        dense_values = []
+        # Compute envelopes on the original grid, then smooth each boundary curve.
+        b_raw, t_raw = streamgraph_envelopes(Ys, margin_frac=margin_frac, order_mode=order_mode)
+
         Xp = None
+        b_smooth_list = []
+        t_smooth_list = []
         for i in range(Ys.shape[0]):
-            xd, yd = catmull_rom_interpolate(X, Ys[i], samples_per_seg=curve_samples)
+            xb, yb = catmull_rom_interpolate(X, b_raw[i], samples_per_seg=curve_samples)
+            xt, yt = catmull_rom_interpolate(X, t_raw[i], samples_per_seg=curve_samples)
             if Xp is None:
-                Xp = xd
-            dense_values.append(np.clip(yd, 0.0, None))
-        Yd = np.vstack(dense_values)
-        bottoms, tops = streamgraph_envelopes(Yd, margin_frac=margin_frac, order_mode=order_mode)
+                Xp = xb
+            b_smooth_list.append(yb)
+            t_smooth_list.append(yt)
+        bottoms = np.vstack(b_smooth_list)
+        tops = np.vstack(t_smooth_list)
     else:
         bottoms, tops = streamgraph_envelopes(Ys, margin_frac=margin_frac, order_mode=order_mode)
         Xp = X
@@ -254,13 +277,69 @@ def plot_streamgraph(
         labels = [f"S{i+1}" for i in range(Y.shape[0])]
 
     if label_placement:
+        # Determine placement strategy
+        position = (label_position or "peak").lower()
+        if position not in {"peak", "start", "end"}:
+            raise ValueError("label_position must be one of {'peak','start','end'}")
+
+        # Margin in x-units to nudge labels away from stream boundary
+        x_min0, x_max0 = float(Xp.min()), float(Xp.max())
+        xr = x_max0 - x_min0 if x_max0 > x_min0 else 1.0
+        x_margin = 0.02 * xr
+
+        # Track if we need to extend x-limits for start/end labels
+        extend_left = position == "start"
+        extend_right = position == "end"
+
+        # Prepare per-layer colors
+        if label_color is None:
+            label_colors = ["white"] * Y.shape[0]
+        elif isinstance(label_color, str):
+            label_colors = [label_color] * Y.shape[0]
+        else:
+            # assume sequence
+            if len(label_color) != Y.shape[0]:
+                raise ValueError("label_color list must match number of layers")
+            label_colors = list(label_color)
+
         for i, lab in enumerate(labels):
             thickness = tops[i] - bottoms[i]
             if np.all(thickness <= 0):
                 continue
-            j = int(np.argmax(thickness))
-            y = bottoms[i, j] + 0.5 * thickness[j]
-            ax.text(Xp[j], y, str(lab), ha="center", va="center", fontsize=10, weight="bold", color="white")
+
+            if position == "peak":
+                j = int(np.argmax(thickness))
+                x = Xp[j]
+                y = bottoms[i, j] + 0.5 * thickness[j]
+                ax.text(x, y, str(lab), ha="center", va="center",
+                        fontsize=label_fontsize, weight=label_weight, color=label_colors[i])
+            elif position == "start":
+                nz = np.where(thickness > 0)[0]
+                if nz.size == 0:
+                    continue
+                j0 = int(nz[0])
+                x = Xp[j0] - x_margin
+                y = bottoms[i, j0] + 0.5 * thickness[j0]
+                ax.text(x, y, str(lab), ha="right", va="center",
+                        fontsize=label_fontsize, weight=label_weight, color=label_colors[i])
+            else:  # position == 'end'
+                nz = np.where(thickness > 0)[0]
+                if nz.size == 0:
+                    continue
+                j1 = int(nz[-1])
+                x = Xp[j1] + x_margin
+                y = bottoms[i, j1] + 0.5 * thickness[j1]
+                ax.text(x, y, str(lab), ha="left", va="center",
+                        fontsize=label_fontsize, weight=label_weight, color=label_colors[i])
+
+        # Extend x-limits if needed so labels are not clipped at edges
+        if extend_left or extend_right:
+            xmin, xmax = ax.get_xlim()
+            if extend_left:
+                xmin = xmin - 2 * x_margin
+            if extend_right:
+                xmax = xmax + 2 * x_margin
+            ax.set_xlim(xmin, xmax)
 
     return ax
 
