@@ -68,7 +68,7 @@ Follow along at: [https://mnoichl.github.io/data-driven-philosophy-GAP2025/](htt
 - **15:30 – 17:00**: Guided walkthrough of state-of-the-art text-analysis notebooks (different difficulties available).  
 - **17:00 – 18:00**: Brainstorming session, initiating individual and/or group projects.  
 
-# Schedule – Day 1
+# Schedule – Day 2
 
 **09:00 – 09:30**: Arrival and coffee.  
 **09:30 – 12:00**: Facilitated project work.  
