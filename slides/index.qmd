@@ -42,7 +42,16 @@ max-scale: 1.6
 <p class="date">2025-09-12</p>
 :::
 
+# 
 
+<iframe
+  src="qrcode.html"
+  width="300"
+  height="300"
+  style="border:0; display: block; margin: 0 auto;"
+></iframe>
+
+Follow along at: [https://mnoichl.github.io/data-driven-philosophy-GAP2025/](https://mnoichl.github.io/data-driven-philosophy-GAP2025/)
 
 # Schedule – Day 1
 

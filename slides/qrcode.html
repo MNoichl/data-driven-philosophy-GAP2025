@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QR</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; }
+    body { margin: 0; display: grid; place-items: center; min-height: 100dvh; }
+    .wrap { display: grid; gap: .5rem; justify-items: center; padding: 1rem; }
+    #qrcode { width: min(90vmin, 90vmin); height: min(90vmin, 90vmin); }
+    small { opacity: .7; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="qrcode" aria-label="QR code"></div>
+    <small id="caption"></small>
+  </div>
+
+  <!-- Lightweight QR library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script>
+  (function () {
+    "use strict";
+
+    const elWrap = document.getElementById("qrcode");
+    const caption = document.getElementById("caption");
+
+    // Set your target URL here
+    const TARGET_URL = "https://mnoichl.github.io/data-driven-philosophy-GAP2025/";
+
+    // Compute size from the container, fallback to 256
+    const computedSize = Math.floor(Math.min(elWrap.clientWidth || 256, elWrap.clientHeight || 256));
+    const size = clamp(computedSize, 64, 1024);
+    const correctLevel = QRCode.CorrectLevel.M; // L M Q H
+
+    const dark = "#000000";
+    const light = "transparent"; // transparent background
+    const label = "";
+
+    const qr = new QRCode(elWrap, {
+      text: TARGET_URL,
+      width: size,
+      height: size,
+      colorDark: dark,
+      colorLight: light,
+      correctLevel
+    });
+
+    caption.textContent = label;
+
+
+    // Helpers
+    function int(v, fallback) { const n = parseInt(v, 10); return Number.isFinite(n) ? n : fallback; }
+    function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
+  })();
+  </script>
+</body>
+</html>
