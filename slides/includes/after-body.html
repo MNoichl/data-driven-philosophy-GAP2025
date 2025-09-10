@@ -1,0 +1,21 @@
+<script>
+(function waitForReveal(){
+    if (!window.Reveal || !Reveal.on) return setTimeout(waitForReveal, 30);
+
+    // Open when the inline modal fragment becomes visible (forward OR backward)
+    Reveal.on('fragmentshown', (e) => {
+        if (e.fragment.classList.contains('opens-modal')) e.fragment.click();
+    });
+
+    // While modal is open: ArrowRight / Enter => close (don't advance)
+    document.addEventListener('keydown', (ev) => {
+        const deck = document.querySelector('.reveal');
+        const open = deck && deck.classList.contains('multimodal-open');
+        if (open && (ev.key === 'ArrowRight' || ev.key === 'Enter')) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+        }
+    }, { capture: true });
+})();
+</script>

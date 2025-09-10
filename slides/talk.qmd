@@ -1,0 +1,43 @@
+---
+format: 
+    revealjs:
+        revealjs-url: reveal.js-5.2.1
+        title-slide: false
+        scroll: true
+        pagetitle: "Network science for philosophers"
+        theme: [default, custom.scss]
+        navigation-mode: vertical
+        revealjs-plugins: [multimodal]
+        include-after-body:
+        - file: includes/after-body.html
+        multimodal:
+           # overlaycolor: "rgba(0,0,0,.55)"
+            overlaycolor: "rgb(255, 0, 0)"
+            radius: "0"             
+        include-in-header:
+        - file: includes/in-header.html
+        auto-stretch: false
+        incremental: true 
+        
+bibliography: /Users/Noich001/Desktop/Talks/MyLibrary.bib
+# csl: the-journal-of-modern-history.csl
+cite-method: citeproc
+dependencies:
+    - "custom.scss"
+controls: true
+width: 1400 # 1060
+height: 1000 # 700
+margin: 0.15 # 1
+min-scale: 0.2
+max-scale: 1.6
+
+# background-image: "images/background_egg.png"
+#quarto preview /Users/Noich001/Desktop/network_epistemology_playground/talk_BOCHUM/Data_and_ABMs.qmd
+#quarto add martinomagnifico/quarto-multimodal
+---
+# {background-iframe="background_network.html" background-size="120%" background-position="left bottom" background-opacity="1."}
+::: {.absolute top=-50 left=700 background="#000" .title-block}
+<h1 class="title">Data-Driven Methods for Philosophy</h1>
+<p class="author">Gregor Bös & Max Noichl</p>
+<p class="date">2025-09-12</p>
+:::

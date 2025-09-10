@@ -1,0 +1,327 @@
+/*-- scss:defaults --*/
+
+
+// @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Jost:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Vollkorn+SC:wght@400;600;700;900&family=Vollkorn:ital,wght@0,400..900;1,400..900&display=swap');
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+
+
+// fonts
+$font-family-sans-serif: "Vollkorn", "Book Antiqua", Palatino, FreeSerif, serif !default;
+
+
+// colors
+$body-bg: #f3f3f3 !default;
+$body-color: #000 !default;
+$link-color: #ab0b00 !default;
+$selection-bg: #ab0b00 !default;
+$myaccent: #ab0b00;
+
+// headings
+$presentation-heading-font: "Roboto Condensed", "Book Antiqua", Palatino, FreeSerif, serif !default;
+$presentation-heading-color: #000 !default;
+$small-caps-font: "Vollkorn SC", "Book Antiqua", Palatino, FreeSerif, serif !default;
+
+
+
+
+/*-- scss:rules --*/
+
+
+
+.smallcaps { 
+    font-family: $small-caps-font !important;
+
+  }
+
+  .highlight { 
+    color: $myaccent !important;
+
+  }
+
+
+
+
+.reveal a {
+    line-height: 1.3em;
+}
+
+// Itemize and Enumerate Styles
+.reveal ul {
+    list-style-type: none !important;
+    // padding: 0 !important;
+    list-style-position: outside;
+    margin-left: 0; // No margin, text aligns with headings
+}
+
+.reveal li {
+    text-indent: 0;
+    padding-left: 0;
+    margin-left: 0;
+    position: relative; // For absolute positioning of bullets
+}
+
+.reveal ul li::before {
+    content: "*" !important; // Asterisk as bullet
+    color: $myaccent !important;
+    font-size: 50pt; // Larger bullet
+    font-family: Jost, sans-serif !important; // Ensure consistent font
+    position: absolute;
+    left: -1.2em; // Position to the left of text
+    top: 0; // Align with first line
+    transform: translateY(0.01em) translateX(0.2em); // Raised position
+    line-height: 1 !important; // Keep glyph box tight without extra leading
+
+}
+
+// Ordered list styling using circled numbers and aligning like bullets
+.reveal ol {
+  list-style: none !important;
+  list-style-position: outside;
+  margin-left: 0; // No margin, text aligns with headings
+}
+
+.reveal ol li::before {
+  color: $myaccent !important;
+  font-family: 'Inter', 'Jost', 'Roboto', 'Segoe UI Symbol', 'Noto Sans Symbols', 'Apple Symbols', sans-serif;
+  position: absolute;
+  left: -1.5em; // Position to the left of text
+  top: 0; // Align with first line
+  transform: translateY(0.06em); // Lower position
+  line-height: 1 !important;
+  font-size: 1.0em; // Larger numbers
+  font-weight: bold !important;
+
+}
+
+/* Map list index to circled numerals */
+.reveal ol > li:nth-child(1)::before { content: '➀'; }
+.reveal ol > li:nth-child(2)::before { content: '➁'; }
+.reveal ol > li:nth-child(3)::before { content: '➂'; }
+.reveal ol > li:nth-child(4)::before { content: '➃'; }
+.reveal ol > li:nth-child(5)::before { content: '➄'; }
+.reveal ol > li:nth-child(6)::before { content: '➅'; }
+.reveal ol > li:nth-child(7)::before { content: '➆'; }
+.reveal ol > li:nth-child(8)::before { content: '➇'; }
+.reveal ol > li:nth-child(9)::before { content: '➈'; }
+.reveal ol > li:nth-child(10)::before { content: '➉'; }
+/* 11–20 fallback to enclosed alphanumerics */
+.reveal ol > li:nth-child(11)::before { content: '⓫'; }
+.reveal ol > li:nth-child(12)::before { content: '⓬'; }
+.reveal ol > li:nth-child(13)::before { content: '⓭'; }
+.reveal ol > li:nth-child(14)::before { content: '⓮'; }
+.reveal ol > li:nth-child(15)::before { content: '⓯'; }
+.reveal ol > li:nth-child(16)::before { content: '⓰'; }
+.reveal ol > li:nth-child(17)::before { content: '⓱'; }
+.reveal ol > li:nth-child(18)::before { content: '⓲'; }
+.reveal ol > li:nth-child(19)::before { content: '⓳'; }
+.reveal ol > li:nth-child(20)::before { content: '⓴'; }
+
+// Nested list styling - smaller bullets and numbers
+.reveal ul ul li::before,
+.reveal ol ul li::before {
+    font-size: 30pt !important; // Smaller bullet for nested lists
+    left: -1em !important; // Slightly less indent
+    transform: translateY(0.15em) !important; // Adjust vertical position
+}
+
+.reveal ul ol li::before,
+.reveal ol ol li::before {
+    font-size: .6em !important; // Smaller numbers for nested lists
+    left: -1.3em !important; // Slightly less indent
+    transform: translateY(0.05em) !important; // Adjust vertical position
+}
+
+// Optional: Add some left margin to nested lists for visual hierarchy
+.reveal ul ul,
+.reveal ul ol,
+.reveal ol ul,
+.reveal ol ol {
+    margin-left: 1.5em !important; // Indent nested lists
+}
+
+// Third level nesting - even smaller
+.reveal ul ul ul li::before,
+.reveal ol ul ul li::before,
+.reveal ul ol ul li::before,
+.reveal ol ol ul li::before {
+    font-size: 20pt !important; // Even smaller bullet
+    left: -0.8em !important;
+}
+
+.reveal ul ul ol li::before,
+.reveal ol ul ol li::before,
+.reveal ul ol ol li::before,
+.reveal ol ol ol li::before {
+    font-size: .5em !important; // Even smaller numbers
+    left: -1.2em !important;
+}
+
+// Titles and Headings
+.reveal .title,
+.reveal h1,
+.reveal h2 {
+    font-family: $presentation-heading-font, sans-serif !important;
+    // letter-spacing: 0.15em !important;
+    // text-transform: uppercase !important;
+    font-weight: 600;
+    margin-bottom: 4%;
+    // margin-top: 8%;
+}
+// .reveal h3,
+// .reveal h4,
+// .reveal h5,
+// .reveal h6 
+
+.reveal .huge {
+    font-family: $presentation-heading-font, sans-serif !important;
+    color: $body-bg !important;
+    font-size: 80pt;
+    line-height: 1;
+    font-weight: 600;
+}
+
+
+//   Citation formatting
+span.citation, span.citation *  {
+    font-family: $presentation-heading-font, sansserif !important;
+    font-size: 20pt;
+    line-height: .2 !important; // Adjust line-height for better alignment
+
+}
+
+
+
+  .reveal .title {
+    font-family: $presentation-heading-font, sans-serif !important;
+    margin-top:  -30%;
+    text-align: right;
+    margin-bottom: 5%;
+    //letter-spacing: 0.15em !important;
+    // text-transform: uppercase !important;
+    font-weight: 500;
+    font-size: 40pt;
+    margin-right: -100pt;
+    // text-shadow:
+    //     2px 2px 4px rgba(250, 167, 86, 0.5),
+    //     -2px -2px 4px rgba(250, 167, 86, 0.5),
+    //     2px -2px 4px rgba(250, 167, 86, 0.5),
+    //     -2px 2px 4px rgba(250, 167, 86, 0.5);
+}
+
+
+.reveal .author,
+.reveal .institute,
+.reveal .date {
+    margin-top:  0%;
+    text-align: right;
+    margin-right: -100pt;
+
+    // text-shadow:
+    //     2px 2px 2px rgba(250, 167, 86, 0.3),
+    //     -2px -2px 2px rgba(250, 167, 86, 0.3),
+    //     2px -2px 2px rgba(250, 167, 86, 0.3),
+    //     -2px 2px 2px rgba(250, 167, 86, 0.3);
+
+}
+
+
+.center-align * {
+    text-align: center;
+}
+
+// .imageheading {
+//     margin-bottom: -30px;
+// }
+
+
+
+.reveal .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $body-bg;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.reveal .remove_background {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
+}
+
+.reveal .image-container p {
+  margin: 0;
+  display: inline-block;
+}
+
+.reveal .image-container img,
+.reveal .image-container .remove_background {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+}
+
+/* Title block styling for title slide */
+.reveal .title-block {
+  background: #000;
+  padding: 20px 30px;
+  position: absolute;
+  max-width: 55%;
+  border-radius: 0px;
+  z-index: 5;
+}
+
+.reveal .title-block .title,
+.reveal .title-block .author,
+.reveal .title-block .institute,
+.reveal .title-block .date {
+  color: #f3f3f3 !important;
+  text-align: left !important;
+  margin-right: 0 !important;
+}
+
+.reveal .title-block .title {
+  margin-top: 0 !important;
+  margin-bottom: 20px;
+  font-size: 70pt;
+  line-height: 1.1;
+}
+
+.reveal .title-block .title::after {
+  content: "";
+  display: block;
+  width: 260px;
+  height: 5px;
+  background: #ffffff;
+  margin-top: 30px;
+}
+
+.reveal .title-block .author,
+.reveal .title-block .institute,
+.reveal .title-block .date {
+  margin: 2px 0;
+}
+
+/* Multimodal plugin overrides (YAML options not propagated by Quarto) */
+.reveal .multimodal {
+  --mm-overlaycolor: #c7c7c7;
+  --mm-outerradius: .3em;
+}
+
+
+
+.reveal .aside {
+  opacity: 0.5;
+}
