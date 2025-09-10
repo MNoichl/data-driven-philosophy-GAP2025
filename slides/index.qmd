@@ -41,3 +41,45 @@ max-scale: 1.6
 <p class="author">Gregor Bös & Max Noichl</p>
 <p class="date">2025-09-12</p>
 :::
+
+
+
+# Schedule – Day 1
+
+
+- **09:00 – 09:30**: Arrival and coffee.
+- **09:30 – 10:00**: Introductions and general remarks.  
+- **10:00 – 11:15**: Keynote by Catherine Herfeld & Discussion
+- *11:15 – 11:30: Short break*  
+- **11:30 – 12:00**: Presentation on network visualization in [edhiphy](https://edhiphy.org/) by Gregor Bös.  
+- *12:00 – 13:30: Lunch break*  
+- **13:30 – 14:45**: Keynote by Adrian Wüthrich & Discussion
+- *14:45 – 15:00: Short break*  
+- **15:00 – 15:30**: Presentation on [OpenAlex Mapper](https://huggingface.co/spaces/m7n/openalex_mapper) by Max Noichl.  
+- **15:30 – 17:00**: Guided walkthrough of state-of-the-art text-analysis notebooks (different difficulties available).  
+- **17:00 – 18:00**: Brainstorming session, initiating individual and/or group projects.  
+
+# Schedule – Day 1
+
+**09:00 – 09:30**: Arrival and coffee.  
+**09:30 – 12:00**: Facilitated project work.  
+*12:00 – 13:00: Lunch break*  
+**13:00 – 14:00**: Continued project work.  
+**14:00 – 15:00**: Project snapshots and farewell.  
+
+# Project-links
+
+* [edhiphy](https://edhiphy.org/) 
+* [OpenAlex Mapper](https://huggingface.co/spaces/m7n/openalex_mapper)
+
+
+# Colab notebooks
+
+1. Text analysis (NER, Embeddings, Clustering): [https://colab.research.google.com/github/MNoichl/data-driven-philosophy-GAP2025/blob/main/workbook_01_text_analysis.ipynb](https://colab.research.google.com/github/MNoichl/data-driven-philosophy-GAP2025/blob/main/workbook_01_text_analysis.ipynb) 
+2. Network analysis (community detection, visualization, pagerank): [https://colab.research.google.com/github/MNoichl/data-driven-philosophy-GAP2025/blob/main/workbook_02_network_analysis.ipynb](https://colab.research.google.com/github/MNoichl/data-driven-philosophy-GAP2025/blob/main/workbook_02_network_analysis.ipynb) 
+
+
+# Useful resources
+
+* Introduction to [network science](https://networksciencebook.com/chapter/1) by Albert-László Barabási.
+* ...
