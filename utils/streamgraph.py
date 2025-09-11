@@ -13,7 +13,7 @@ Author: Rapty 🦖
 """
 
 from __future__ import annotations
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Mapping, Sequence, Union
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.cm import get_cmap
@@ -170,7 +170,7 @@ def plot_streamgraph(
     sorted_streams: bool = True,
     margin_frac: float = 0.0,
     smooth_window: int = 1,
-    cmap: Optional[str] = None,
+    cmap: Optional[Union[str, Mapping[str, str], Sequence[str]]] = None,
     linewidth: float = 0.0,
     alpha: float = 1.0,
     label_placement: bool = True,
@@ -196,8 +196,12 @@ def plot_streamgraph(
         Fraction of column sum reserved as vertical gaps between layers.
     smooth_window : int
         Moving-average window along the time axis. 1 keeps raw values.
-    cmap : str or None
-        Matplotlib colormap name. None uses the default property cycle.
+    cmap : str | Sequence[str] | Mapping[str, str] | None
+        - If str: Matplotlib colormap name.
+        - If Sequence[str]: explicit list/tuple of colors for layers (cycled if shorter).
+        - If Mapping[str, str]: dictionary mapping label -> color. Labels not
+          present fall back to the default property cycle. Requires `labels`.
+        - If None: use the default property cycle.
     linewidth, alpha : appearance controls.
     label_placement : bool
         Whether to place labels for each layer.
@@ -258,7 +262,63 @@ def plot_streamgraph(
     if ax is None:
         fig, ax = plt.subplots(figsize=(10, 6))
 
-    colors = None if cmap is None else [get_cmap(cmap, Y.shape[0])(i) for i in range(Y.shape[0])]
+    def _build_layer_colors(
+        cmap_value: Optional[Union[str, Mapping[str, str], Sequence[str]]],
+        labels_value: Optional[List[str]],
+        num_layers: int,
+    ) -> Optional[List]:
+        # None -> let Matplotlib use default property cycle
+        if cmap_value is None:
+            return None
+
+        # Helper: default colors from property cycle, or tab20 fallback
+        def _default_colors(n: int):
+            prop_cycle = plt.rcParams.get("axes.prop_cycle", None)
+            if prop_cycle is not None:
+                cols = prop_cycle.by_key().get("color", [])
+            else:
+                cols = []
+            if not cols:
+                return [get_cmap("tab20", n)(i) for i in range(n)]
+            if len(cols) < n:
+                # cycle
+                reps = (n + len(cols) - 1) // len(cols)
+                cols = (cols * reps)[:n]
+            else:
+                cols = cols[:n]
+            return cols
+
+        # String -> named Matplotlib colormap
+        if isinstance(cmap_value, str):
+            return [get_cmap(cmap_value, num_layers)(i) for i in range(num_layers)]
+
+        # Sequence of colors -> normalize to length num_layers by cycling
+        if isinstance(cmap_value, Sequence) and not isinstance(cmap_value, str):
+            seq = list(cmap_value)
+            if len(seq) == 0:
+                return _default_colors(num_layers)
+            if len(seq) < num_layers:
+                reps = (num_layers + len(seq) - 1) // len(seq)
+                seq = (seq * reps)[:num_layers]
+            else:
+                seq = seq[:num_layers]
+            return seq
+
+        # Mapping label -> color. Requires labels
+        if isinstance(cmap_value, Mapping):
+            if labels_value is None:
+                raise ValueError("labels must be provided when cmap is a Mapping[label -> color]")
+            base = _default_colors(num_layers)
+            out = []
+            for i in range(num_layers):
+                lab = labels_value[i]
+                out.append(cmap_value.get(lab, base[i]))
+            return out
+
+        # Fallback
+        return None
+
+    colors = _build_layer_colors(cmap, labels, Y.shape[0])
 
     for i in range(Y.shape[0]):
         ax.fill_between(Xp, bottoms[i], tops[i], linewidth=linewidth, alpha=alpha,
