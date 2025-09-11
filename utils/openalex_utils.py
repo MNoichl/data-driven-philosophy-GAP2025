@@ -439,7 +439,7 @@ def download_openalex_records(
 
     progress_cb = progress or _noop_progress
 
-    print('Starting data projection pipeline')
+    print('Starting data retrieval pipeline')
     progress_cb(0.1, desc="Starting...")
 
     start_time = time.time()
