@@ -4,7 +4,7 @@ format:
         revealjs-url: reveal.js-5.2.1
         title-slide: false
         scroll: true
-        pagetitle: "Network science for philosophers"
+        pagetitle: "Data-Driven methods"
         theme: [default, custom.scss]
         navigation-mode: vertical
         revealjs-plugins: [multimodal]
@@ -55,26 +55,29 @@ Follow along at: [https://mnoichl.github.io/data-driven-philosophy-GAP2025/](htt
 
 # Schedule – Day 1
 
-
+:::{.nonincremental}
 - **09:00 – 09:30**: Arrival and coffee.
 - **09:30 – 10:00**: Introductions and general remarks.  
-- **10:00 – 11:15**: Keynote by Catherine Herfeld & Discussion
+- **10:00 – 11:15**: Keynote by Adrian Wüthrich & Discussion
 - *11:15 – 11:30: Short break*  
 - **11:30 – 12:00**: Presentation on network visualization in [edhiphy](https://edhiphy.org/) by Gregor Bös.  
 - *12:00 – 13:30: Lunch break*  
-- **13:30 – 14:45**: Keynote by Adrian Wüthrich & Discussion
+- **13:30 – 14:45**: Keynote by Catherine Herfeld & Discussion
 - *14:45 – 15:00: Short break*  
 - **15:00 – 15:30**: Presentation on [OpenAlex Mapper](https://huggingface.co/spaces/m7n/openalex_mapper) by Max Noichl.  
 - **15:30 – 17:00**: Guided walkthrough of state-of-the-art text-analysis notebooks (different difficulties available).  
 - **17:00 – 18:00**: Brainstorming session, initiating individual and/or group projects.  
+:::
 
 # Schedule – Day 2
 
+:::{.nonincremental}
 - **09:00 – 09:30**: Arrival and coffee.  
 - **09:30 – 12:00**: Facilitated project work.  
 - *12:00 – 13:00: Lunch break*  
 - **13:00 – 14:00**: Continued project work.  
 - **14:00 – 15:00**: Project snapshots and farewell.  
+:::
 
 # Project-links
 
